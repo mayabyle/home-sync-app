@@ -1,6 +1,9 @@
 import React from "react";
 
 function Chores() {
-    <div></div>
+    return (
+        <div>Chores</div>
+    )
 }
+
 export default Chores;

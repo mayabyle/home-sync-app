@@ -1,0 +1,124 @@
+$lightGreen : #b9e7e7;
+
+.app{
+    display: flex;
+    justify-content: center;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+    .container{
+        width: 1024px;
+
+        .link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        // LOGIN & REGISTER
+        .auth {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: $lightGreen;
+
+            h1 {
+                font-size: 20px;
+                color: teal;
+                margin-bottom: 20px;
+            }
+
+            form {
+                display: flex;
+                flex-direction: column;
+                background-color: white;
+                padding: 50px;
+                width: 200px;
+                gap: 20px;
+            }
+
+            input {
+                padding: 10px;
+                border: none;
+                border-bottom: 1px solid gray;
+            }
+
+            button {
+                padding: 10px;
+                border: none;
+                background-color: teal;
+                color: white;
+                cursor: pointer;
+            }
+
+            p {
+                font-size: 12px;
+                color: rgb(215, 72, 72);
+                text-align: center;
+            }
+
+            span {
+                font-size: 12px;
+                text-align: center;
+            }
+        }
+
+        // NAVBAR
+        .navbar {
+            .container {
+                padding: 10px 0px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                // .logo{ }
+                .links{
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+
+                    .link {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 60px;
+                        height: 30px;
+                        background-color: $lightGreen;
+                        border-radius: 50%;
+                        // border: 1px solid white;
+
+                        h6 {
+                            font-size: 16px;
+                            font-weight: 600;
+                            text-align: center;
+                        }
+
+                        &:hover {
+                            color: teal;
+                            background-color: white;
+                            // border: 1px solid teal;
+                        }
+                    }
+
+                    span {
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+
+
+        // FOOTER
+        footer {
+            margin-top: 200px;
+            padding: 20px;
+            background-color: $lightGreen;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            img {
+              height: 50px;
+            }
+        }
+    }
+}
