@@ -3,6 +3,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Chores from "./pages/Chores";
+import Calendar from "./pages/CalendarPage.jsx";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import "./style.scss"
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "/chores", element: <Chores /> },
+      { path: "/calendar", element: <Calendar /> },
     ] 
   },
   { path: "/register", element: <Register /> },

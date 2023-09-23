@@ -88,7 +88,7 @@ $lightGreen : #b9e7e7;
 
                         h6 {
                             font-size: 16px;
-                            font-weight: 600;
+                            font-weight: lighter;
                             text-align: center;
                         }
 
@@ -109,7 +109,7 @@ $lightGreen : #b9e7e7;
 
         // FOOTER
         footer {
-            margin-top: 200px;
+            margin-top: 100px;
             padding: 20px;
             background-color: $lightGreen;
             display: flex;
@@ -120,5 +120,28 @@ $lightGreen : #b9e7e7;
               height: 50px;
             }
         }
+
+        
+        // HOME
+        .home {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+
+            .notifications {
+                align-items: center;
+                flex-direction: column;
+                flex: 1.4;
+                
+
+                .notification {
+                    font-size: 14px;
+                    line-height: 0.5;
+                    // font-weight:lighter;
+                }
+            }
+        }
+
+
     }
 }
