@@ -70,7 +70,7 @@ $lightGreen : #b9e7e7;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                // .logo{ }
+
                 .links{
                     display: flex;
                     align-items: center;
@@ -121,23 +121,59 @@ $lightGreen : #b9e7e7;
             }
         }
 
-        
         // HOME
         .home {
             margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-
+            
             .notifications {
                 align-items: center;
                 flex-direction: column;
                 flex: 1.4;
-                
 
                 .notification {
                     font-size: 14px;
                     line-height: 0.5;
                     // font-weight:lighter;
+                }
+            }
+        }
+
+
+        // CHORES
+        .chores {
+            form {
+                display: flex;
+                flex-direction: column;
+                width: 500px;
+                gap: 5px;
+                // row-gap: 10px;
+
+                .incharge-box label {
+                    display: flex;
+                    align-items: center;
+                    margin-right: 10px; /* Adjust as needed for spacing */
+                }
+            }
+            
+            button {
+                padding: 3px;
+                border-left: 5px;
+                border: none;
+                background-color: rgba(0, 128, 128, 0.766);
+                color: white;
+                cursor: pointer;
+            }
+        
+            .chore {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 30px;
+
+                button {
+                    // padding: 20px 0px; 
+                    color: teal;
+                    background-color: white;
                 }
             }
         }

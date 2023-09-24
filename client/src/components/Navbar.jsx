@@ -7,16 +7,15 @@ function Navbar() {
     return (
         <div className="navbar">
             <div className="container">
-                <div className="logo">
+                <a className="logo" href="/">
                     <img src={Logo} width={200} height={130} alt="" />
-                </div>
+                </a>
                 <div className="links">
-                    {/* to do link for pages or components like? */}
                     <Link className="link" to="/calendar"><h6>Calendar</h6></Link>
-                    <Link className="link" to="/?cat=Split"><h6>Split</h6></Link>
-                    <Link className="link" to="/?cat=Shopping List"><h6>Market</h6></Link>
-                    <Link className="link" to="/?cat=Chores"><h6>Chores</h6></Link>
-                    <Link className="link" to="/?cat=Plants"><h6>Plants</h6></Link>
+                    <Link className="link" to="/Split"><h6>Split</h6></Link>
+                    <Link className="link" to="/Shopping List"><h6>Market</h6></Link>
+                    <Link className="link" to="/Chores"><h6>Chores</h6></Link>
+                    <Link className="link" to="/Plants"><h6>Plants</h6></Link>
                     <span>Setting</span>
                     <span>Logout</span>
                 </div>
