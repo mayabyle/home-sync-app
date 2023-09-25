@@ -1,28 +1,23 @@
 import React from "react";
-import { useState } from "react";
-
-// const chores = [
-//     {
-//         id: 1,
-//         task: "Take the trash out",
-//         incharge: "Maya",
-//     },
-//     {
-//         id: 2,
-//         task: "Clean the house",
-//         incharge: "Everyone",
-//     },
-//     {
-//         id: 3,
-//         task: "Change the light bulb",
-//         incharge: "Bar",
-//     },
-// ];
+import { useState, useEffect } from "react";
+import axios from 'axios';
 
 function Chores() {
     const [chore, setChore] = useState("");
     const [incharge, setIncharge] = useState("");  //TODO change into list or check box
     const [chores, setChores] = useState([]);
+
+    useEffect(() => {
+        const fetchChores = async () => {
+            try {
+                const res = await axios.get("http://localhost:3000/chores")
+                console.log(res)
+                setChores(res.data)
+            } 
+            catch(err) { console.log(err) }
+        }
+        fetchChores()
+    })
 
     const addChore = () => {
         setChores([...chores, {chore, incharge}]);
