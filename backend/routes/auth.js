@@ -44,8 +44,6 @@ router.post("/login", (req, res) => {
             return res.status(409).json("User not exists!")
 
         const dbUser = data[0]; // Get the first row from the query result
-        if (user.username !== dbUser.username)
-            return res.status(409).json("Wrong username")
         
         //Check password
         const isPasswordCorrect = bcrypt.compareSync(
@@ -69,7 +67,10 @@ router.post("/login", (req, res) => {
 });
 
 router.post("/logout", (req, res) => {
-    res.json("auth data")
+    res.clearCookie("access_token",{
+        sameSite: "none",
+        secure: true
+    }).status(200).json("User has been logged out.")
 });
 
 export default router;

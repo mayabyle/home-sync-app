@@ -4,7 +4,7 @@ import {db} from "../db.js";
 const router = express.Router()
 
 router.get("/", (req, res) => {
-    const selectQuery = "SELECT * FROM chores"
+    const selectQuery = "SELECT * FROM chores" //TODO FIX
     db.query(selectQuery, (err, data) => {
         if(err) {
             return res.json("error")
@@ -16,11 +16,11 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
     const values = [
         req.body.desc,
-        req.body.incharge,
-        // "",  //TODO - to support roomies incharge
+        req.body.incharge, //TODO - to support roomies incharge
+        1,
     ];
 
-    const insertQuery = "INSERT INTO chores(`desc`, `incharge`) VALUES (?)";
+    const insertQuery = "INSERT INTO chores(`desc`, `incharge`, `apartmentid`) VALUES (?)";
     db.query(insertQuery, [values], (err, insertRes) => {
         if (err) {
             return res.status(500).json({ error: "Error inserting data into the database." });

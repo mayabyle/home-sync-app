@@ -10,7 +10,7 @@ function Chores() {
     useEffect(() => {
         const fetchChores = async () => {
             try {
-                const res = await axios.get(`http://localhost:3001/chores`)
+                const res = await axios.get(`/chores`)
                 setChores(res.data)
             } 
             catch(err) { console.log(err) }
@@ -20,7 +20,7 @@ function Chores() {
 
     const handleAdd = async () => {
         try {
-            const res = await axios.post(`http://localhost:3001/chores`, {desc, incharge})
+            const res = await axios.post(`/chores`, {desc, incharge})
             const newChore = res.data
             setChores([...chores, { id: newChore.id, desc: newChore.desc, incharge: newChore.incharge }]);
         } 
@@ -31,7 +31,7 @@ function Chores() {
     };
 
     const handleDelete = async (toDelete) => {
-        const res = await axios.delete(`http://localhost:3001/chores/${toDelete.id}`)
+        const res = await axios.delete(`/chores/${toDelete.id}`)
         console.log(res.data)
         const newChores = chores.filter((chore) => {
             return chore !== toDelete;

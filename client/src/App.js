@@ -1,8 +1,9 @@
-import { createBrowserRouter, RouterProvider, Route, Outlet } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Chores from "./pages/Chores";
+import Plants from "./pages/Plants";
 import Calendar from "./pages/CalendarPage.jsx";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
       { path: "/", element: <Home /> },
       { path: "/chores", element: <Chores /> },
       { path: "/calendar", element: <Calendar /> },
+      { path: "/plants", element: <Plants /> },
     ] 
   },
   { path: "/register", element: <Register /> },
