@@ -24,4 +24,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # Ignore the uploads directory
-/backend/uploads/
+/client/public/uploads/
