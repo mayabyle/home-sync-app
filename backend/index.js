@@ -15,9 +15,17 @@ app.use(cors())
 app.use(express.json());
 app.use(cookieParser())
 
+app.use("/api/auth", authRoutes)
+app.use("/api/users", userRoutes)
+app.use("/api/apartments", apartmentRoutes)
+app.use("/api/chores", choreRoutes)
+app.use("/api/plants", plantsRoutes)
+
+///////////////// upload plant img using multer /////////////////
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './uploads')
+        cb(null, '../client/public/uploads')
     },
     filename: function (req, file, cb) {
         cb(null, Date.now() +"-"+ file.originalname)
@@ -29,12 +37,6 @@ app.post('/api/upload', upload.single('img'), function(req, res) {
     const image = req.file
     return res.status(200).json(image.filename)
 })
-
-app.use("/api/auth", authRoutes)
-app.use("/api/users", userRoutes)
-app.use("/api/apartments", apartmentRoutes)
-app.use("/api/chores", choreRoutes)
-app.use("/api/plants", plantsRoutes)
 
 ////////////////////////////////////////////////////////////////////////////////////////
 

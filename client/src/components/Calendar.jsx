@@ -14,6 +14,7 @@ const styles = {
     }
   };
 
+
 function Calendar( {isHome} ) {
     const calendarRef = useRef();
     
@@ -75,7 +76,6 @@ function Calendar( {isHome} ) {
               right: 3,
               width: 20,
               height: 20,
-              // symbol: "icons/daypilot.svg#minichevron-down-2",
               fontColor: "#fff",
               toolTip: "Show context menu",
               action: "ContextMenu",

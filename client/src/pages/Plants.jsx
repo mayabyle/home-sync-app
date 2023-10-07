@@ -24,6 +24,8 @@ function Plants() {
     },[])
 
     const upload = async () => {
+        //TODO change cloudinary
+        //TODO check cloudinary vs upload strait to server(multer)
         try {
             const formData = new FormData();
             formData.append("img", img);
@@ -39,8 +41,6 @@ function Plants() {
         e.preventDefault()
         const imgUrl = await upload();
         console.log(imgUrl)
-        //TODO change cloudinary
-        //TODO check cloudinary vs upload strait to server(multer)
         try {
             const res = await axios.post(`/plants`, {name, desc, waterDate, preferences, img: img?imgUrl:"",})
             const newPlant = res.data
@@ -58,19 +58,29 @@ function Plants() {
 
     return (
         <div className="plants">
-            <div className="addPlant">
+            <div className="add-plant">
                 {/* TODO make i got new plant as a button that open dynamicly add plant window */}
-                <h1>I got new plant!</h1>
-                <input
-                    type="text"
-                    placeholder="Name"
-                    onChange={(e) => setName(e.target.value)}
-                />
-                <input
-                    type="text"
-                    placeholder="Description (optional)"
-                    onChange={(e) => setDesc(e.target.value)}
-                />
+                <a>
+                    <h2>I got new plant!</h2>
+                    <button onClick={handleClick}> Add Plant </button>
+                </a>   
+                <div className="content">
+                    <input
+                        type="text"
+                        placeholder="Name"
+                        onChange={(e) => setName(e.target.value)}
+                        style={{ height: '7px',
+                                 padding: '10px',
+                                 border: '1px solid lightgray' }}
+                    />
+                    <textarea
+                        type="Content"
+                        placeholder="Description (optional)"
+                        onChange={(e) => setDesc(e.target.value)}
+                        style={{ height: '50px',
+                                 border: '1px solid lightgray'  }}
+                    />
+                </div>
                 <div className="date">
                     <label htmlFor="dateInput">last water date:</label>
                     <input
@@ -88,15 +98,17 @@ function Plants() {
                         name=""
                         onChange={(e) => setImg(e.target.files[0])}
                     />
-                    <label className="file" htmlFor="file">
+                    <label className="file" htmlFor="file" style={{ background:'white', 
+                                                                    border: '1px solid lightgray',
+                                                                    padding: '5px 5px', // Adjust the padding as needed
+                                                                    display: 'inline-block' }}>
                         Upload Image
                     </label>
                 </div>
-                <button onClick={handleClick}> Add </button>
 
                 <div className="waterInfo">
-                    <h1>how often to water?</h1>
-                    <div className="waterOption">
+                    <h4>how often to water?</h4>
+                    <div className="water-option">
                         <input
                             type="radio"
                             id="opt1"
@@ -107,7 +119,7 @@ function Plants() {
                         />
                         <label htmlFor="opt1">when the soil is dry</label>
                     </div>
-                    <div className="waterOption">
+                    <div className="water-option">
                         <input
                             type="radio"
                             id="opt2"
@@ -121,25 +133,32 @@ function Plants() {
                 </div> 
             </div>
 
-        <div className="showPlants">
-        {plants.map((plant) => (
-            <div className="plant" key={plant.id}>
-                <div className="img">
-                  { plant.img ? 
-                        <img src={`../upload/${plant.img}`} alt="" /> :
-                        <img src={`../upload/$general`} alt="" /> }  
-                        {/* TODO upload a general photo of question mark */}
+        
+        {plants && 
+            <div className="plants-list">
+                <h2>My Plants:</h2>
+                {plants.map((plant) => (
+                <div className="plant" key={plant.id}>
+                    {console.log(plant)}
+                    <div className="img">
+                      { plant.img ? 
+                            <img src={`../uploads/${plant.img}`} alt="" /> :
+                            <img src={`../uploads/general.png`} alt="" /> }
+                            {/* TODO upload a general photo of question mark */}
+                            {/* TODO - show the name of img after upload */}
+                    </div>
+                    <div className="content">
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <h3 style={{ fontSize:'22px' }}>{plant.name}</h3>
+                            {plant.desc && <p style={{ fontSize:'22px' }}>-  {plant.desc}</p>}
+                        </div>
+                        {plant.last_water && <p>{plant.last_water}</p>}
+                        {plant.preferences && <p>{plant.preferences}</p>}
+                    </div>
                 </div>
-                <div className="content">
-                    <h3>{plant.name}</h3>
-                    {plant.desc && <p>{plant.desc}</p>}
-                    {plant.waterDate && <p>{plant.waterDate}</p>}
-                    {plant.preferences && <p>{plant.preferences}</p>}
-                </div>
+                ))}
             </div>
-        ))}
-      </div>
-
+        }
 
         </div>
     )
