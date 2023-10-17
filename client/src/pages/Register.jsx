@@ -28,6 +28,7 @@ function Register() {
                 <input required type="text" value={username} placeholder="Username" onChange={(e) => { setUsername(e.target.value) }}/>
                 <input required type="email" value={email} placeholder="Email" onChange={(e) => { setEmail(e.target.value) }}/>
                 <input required type="password" value={password} placeholder="Password" onChange={(e) => { setPassword(e.target.value) }}/>
+                {/* TODO add an img option */}
                 <button onClick={handleRegiser}>Register</button>
                 { error && <p>{error}</p> }
                 <span>Do you have an account? <Link to="/Login">Login</Link></span>

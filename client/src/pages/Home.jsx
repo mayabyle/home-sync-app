@@ -22,9 +22,8 @@ const notifications = [
 function Home() {
     return (
         <div className="home">
-            {/* to add weekly calendar */}
-            {/* notifications */}
-            <Calendar isHome={true}/>
+            {/* TODO fix notifications */}
+            <Calendar isHomePage={true}/>
             <div className="notifications">
                 <h4>Notifications:</h4>
                 {notifications.map(not => (

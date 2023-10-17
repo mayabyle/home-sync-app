@@ -1,21 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { DayPilot, DayPilotCalendar, DayPilotNavigator } from "@daypilot/daypilot-lite-react";
 import "./CalendarStyles.scss";
-
-const styles = {
-    wrap: {
-      display: "flex"
-    },
-    left: {
-      marginRight: "10px"
-    },
-    main: {
-      flexGrow: "1"
-    }
-  };
+import axios from 'axios';
 
 
-function Calendar( {isHome} ) {
+function Calendar( {isHomePage} ) {
     const calendarRef = useRef();
     
     const editEvent = async (e) => {
@@ -24,27 +13,48 @@ function Calendar( {isHome} ) {
         if (!modal.result) { 
             return; 
         }
+        try {
+          const res = axios.put(`/calendar/${e.id()}`, { text: modal.result })
+          console.log(res)
+        } catch(e) { console.log(e) }
         e.data.text = modal.result;
         dp.events.update(e);
-      };
+    };
 
-      const timeRangeSelectedHandling = isHome ? "Disabled" : "Enabled";
+    // const timeRangeSelectedHandling = isHomePage ? "Disabled" : "Enabled";
     
-      const [calendarConfig, setCalendarConfig] = useState({
+    const [calendarConfig, setCalendarConfig] = useState({
         viewType: "Week",
-        durationBarVisible: false,
-        timeRangeSelectedHandling: timeRangeSelectedHandling,
+        // durationBarVisible: false,
+        timeRangeSelectedHandling: isHomePage ? "Disabled" : "Enabled",
+        // timeZone: "Asia/Jerusalem", 
         onTimeRangeSelected: async args => {
           const dp = calendarRef.current.control;
-          const modal = await DayPilot.Modal.prompt("Create a new event:", "Event 1");
+          const modal = await DayPilot.Modal.prompt("Create a new event:", "New event");
           dp.clearSelection();
           if (!modal.result) { return; }
-          dp.events.add({
+          // create event objects and add to database
+          const newEvent = {
             start: args.start,
             end: args.end,
             id: DayPilot.guid(),
             text: modal.result
-          });
+          }
+          const fixedStart = new DayPilot.Date(args.start);
+          const fixedEnd = new DayPilot.Date(args.end);
+          const fixedEvent = {
+            start: fixedStart.addHours(3),
+            end: fixedEnd.addHours(3),
+            id: DayPilot.guid(),
+            text: modal.result
+          }
+          try {
+            const res = await axios.post(`/calendar`, fixedEvent)
+          } catch(e) {
+            console.log(e)
+          }
+          // add new event to the callendar ref
+          dp.events.add(newEvent);
         },
         onEventClick: async args => {
           await editEvent(args.e);
@@ -55,6 +65,9 @@ function Calendar( {isHome} ) {
               text: "Delete",
               onClick: async args => {
                 const dp = calendarRef.current.control;
+                try {
+                  axios.delete(`/calendar/${args.source.id()}`)
+                } catch(e) { console.log(e) }
                 dp.events.remove(args.source);
               },
             },
@@ -77,78 +90,55 @@ function Calendar( {isHome} ) {
               width: 20,
               height: 20,
               fontColor: "#fff",
+              // backgroundColor: "#111",
               toolTip: "Show context menu",
               action: "ContextMenu",
+              html: '<div style="font-size: 20px;color: #b9e7e7;">&#10247;</div>', // 3dots icon
             },
-            {
-              top: 3,
-              right: 25,
-              width: 20,
-              height: 20,
-              // symbol: "icons/daypilot.svg#x-circle",
-              fontColor: "#fff",
-              action: "None",
-              toolTip: "Delete event",
-              onClick: async args => {
-                const dp = calendarRef.current.control;
-                dp.events.remove(args.source);
-              }
-            }
+            // {
+            //   top: 3,
+            //   right: 25,
+            //   width: 20,
+            //   height: 20,
+            //   fontColor: "#fff",
+            //   action: "None",
+            //   toolTip: "Delete event",
+            //   onClick: async args => {
+            //     const dp = calendarRef.current.control;
+            //     dp.events.remove(args.source);
+            //   }
+            // }
           ];
-    
-    
-          const participants = args.data.participants;
-          if (participants > 0) {
-            // show one icon for each participant
-            for (let i = 0; i < participants; i++) {
-              args.data.areas.push({
-                bottom: 5,
-                right: 5 + i * 30,
-                width: 24,
-                height: 24,
-                action: "None",
-                image: `https://picsum.photos/24/24?random=${i}`,
-                style: "border-radius: 50%; border: 2px solid #fff; overflow: hidden;",
-              });
-            }
-          }
         }
-      });
-    
+    });
+        
     useEffect(() => {
-        // TODO load calendar events from db
-        const events = [
-          {
-            id: 1,
-            text: "Event 1",
-            start: "2023-09-24T10:30:00",
-            end: "2023-09-24T13:00:00",
-            participants: 2,
-          },
-          {
-            id: 2,
-            text: "Event 2",
-            start: "2023-09-27T09:30:00",
-            end: "2023-09-27T11:30:00",
-            backColor: "#6aa84f",
-            participants: 1,
-          },
-        ];
-    
-        const startDate = "2023-09-24";
-    
-        calendarRef.current.control.update({startDate, events});
-      }, []);
+        const fetchEvents = async () => {
+            try {
+                const res = await axios.get(`/calendar`)
+                let events = res.data
+                console.log(events)
+                let todayDate = new Date()
+                calendarRef.current.control.update({todayDate, events});
+            } 
+            catch(err) { 
+              console.log(err) 
+            }
+        }
+        fetchEvents()
+    }, []);
 
+    // handle week select in month box
     const handleTimeRangeSelected = args => {
         calendarRef.current.control.update({
           startDate: args.day
         });
     }
 
+    
     return (
         <div style={styles.wrap}>
-            {!isHome ? 
+            {!isHomePage ? 
                 <div style={styles.left}>
                     <DayPilotNavigator
                         selectMode={"Week"}
@@ -165,5 +155,17 @@ function Calendar( {isHome} ) {
         </div>
     )
 }
+
+const styles = {
+  wrap: {
+    display: "flex"
+  },
+  left: {
+    marginRight: "10px"
+  },
+  main: {
+    flexGrow: "1"
+  }
+};
 
 export default Calendar;
