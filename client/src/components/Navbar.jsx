@@ -16,10 +16,10 @@ function Navbar() {
                 </a>
                 <div className="links">
                     <Link className="link" to="/calendar"><h6>Calendar</h6></Link>
-                    <Link className="link" to="/Split"><h6>Split</h6></Link>
-                    <Link className="link" to="/Shopping List"><h6>Market</h6></Link>
-                    <Link className="link" to="/Chores"><h6>Chores</h6></Link>
-                    <Link className="link" to="/Plants"><h6>Plants</h6></Link>
+                    <Link className="link" to="/split"><h6>Split</h6></Link>
+                    <Link className="link" to="/market"><h6>Market</h6></Link>
+                    <Link className="link" to="/chores"><h6>Chores</h6></Link>
+                    <Link className="link" to="/plants"><h6>Plants</h6></Link>
                     <span>Setting</span>
                     {currUser ? 
                         <span onClick={logout}> Logout </span> : 

@@ -73,7 +73,7 @@ router.delete("/:id", (req, res) => {
       if (err) 
           return res.send(err);
       return res.status(200).send("Successfully deleted from events");
-});
+  });
 })
 
 
