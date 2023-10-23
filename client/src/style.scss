@@ -28,7 +28,7 @@ $green : rgba(0, 128, 128, 0.766);
 
             h1 {
                 font-size: 20px;
-                color: teal;
+                color: $green;
                 margin-bottom: 20px;
             }
 
@@ -50,15 +50,9 @@ $green : rgba(0, 128, 128, 0.766);
             button {
                 padding: 10px;
                 border: none;
-                background-color: teal;
+                background-color: $green;
                 color: white;
                 cursor: pointer;
-            }
-
-            p {
-                font-size: 12px;
-                color: rgb(215, 72, 72);
-                text-align: center;
             }
 
             span {
@@ -95,9 +89,9 @@ $green : rgba(0, 128, 128, 0.766);
                         }
 
                         &:hover {
-                            color: teal;
+                            color: $green;
                             background-color: white;
-                            // border: 1px solid teal;
+                            // border: 1px solid $green;
                         }
                     }
 
@@ -174,7 +168,7 @@ $green : rgba(0, 128, 128, 0.766);
 
                 button {
                     // padding: 20px 0px; 
-                    color: teal;
+                    color: $green;
                     background-color: white;
                 }
             }
@@ -185,11 +179,33 @@ $green : rgba(0, 128, 128, 0.766);
 
         .plants {
             margin-top: 20px;
+            position: relative;
+
+            .addPlantButton button {
+                position: absolute;
+                right: 20px; /* Adjust this value to control the distance from the right edge */
+                top: 20px; /* You can also adjust the top value to control the vertical position */
+                padding: 10px;
+                border: none;
+                background-color: white;
+                color: $green;
+                cursor: pointer;
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            }
+
+            .addPlantButton button.active {
+                position: sticky;
+                padding: 7px;
+                background-color: white;
+                color: teal;
+                box-shadow: none;
+            }
             
             .add-plant {
                 @include flex-center;
-                gap: 20px;
+                gap: 30px;
                 background-color: $lightGreen;
+                border-radius: 10px; /* Add rounded corners */
 
                 a {
                     @include flex-center;
@@ -201,6 +217,7 @@ $green : rgba(0, 128, 128, 0.766);
                     display: flex;
                     flex-direction: column;
                     gap: 10px;
+                    margin-left: 10px;
                 }
 
                 .date {
@@ -209,47 +226,75 @@ $green : rgba(0, 128, 128, 0.766);
                     gap: 6px;
                 }
 
+                // .droppdown-card.active {
+                //     opacity: 1;
+                //     visibility: visible;
+                //     transform: translateY(0);
+                //     transition: opacity 0.5s ease, visibility 0.5s ease, transform 0.5s ease;
+                // }
+                // .droppdown-card.inactive {
+                //     opacity: 0;
+                //     visibility: hidden;
+                //     transform: translateY(-20px);
+                //     transition: var(--speed) ease;
+                // }
+
+                .waterInfo {
+                    padding-bottom: 20px;
+                }
+
             }
             
             .plants-list {
                 margin-top: 30px;
                 flex-direction: column;
-                margin-top: 50px; /* Adjust the margin as needed */
-                // background-color: aqua;
+                margin-top: 50px; 
                 
                 .plant {
                     display: flex;
+                    position: relative;
                     gap: 20px;
                     align-items: flex-start; /* Align content to the top of .img */
-                    margin-top: 20px; /* Adjust the margin as needed */
+                    margin-top: 30px; /* Adjust the margin as needed */
                     margin-bottom: 20px; /* Adjust the margin as needed */
-                    
-                    // &:nth-child(2n + 1) {
-                    //     flex-direction: row-reverse;
-                    // }
                   
-                    .img {
+                    .img img {
                         flex: 2;
                         position: relative;
+                        max-height: 150px;
+                        max-width: 200px;
+                        object-fit: cover;
 
-                        img {
-                            max-height: 200px;
-                            max-width: 200px;
-                            object-fit: cover;
-                        }
                     }
                   
                     .content {
-                        flex: 9;
+                        flex: 5;
                         display: flex;
                         flex-direction: column;
-                        // justify-content: space-between;
                         align-self: flex-start; /* Align content to the top of .img */
-                    
+                        margin-top: 0; /* Adjust as needed */
                         p {
                             font-size: 18px;
+                            margin-top: 0; /* Adjust as needed */
                         }
                 
+                    }
+                
+                    .icons {
+                        flex: 1;
+                        position: absolute;
+                        bottom: 20px;
+                        right: 50px;
+                        display: flex;
+                        gap: 10px;
+                        opacity: 0.6; /* 50% opacity */
+                        padding: 5px;
+                    }
+                
+                    /* Individual icon styles */
+                    .icons > svg {
+                        font-size: 20px; /* Adjust the size as needed */
+                        cursor: pointer;
                     }
                 }
             }
