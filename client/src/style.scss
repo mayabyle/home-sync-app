@@ -301,6 +301,54 @@ $green : rgba(0, 128, 128, 0.766);
         }
 
 
+        // SPLIT
+        .split {
+            width: 80%;
+
+            .expense-container {
+                display: flex;
+                flex-direction: column;
+                gap: 10px; 
+                margin-bottom: 20px;
+            
+                .bill {
+                    display: flex;
+                    align-items: center; /* Vertically aligns the content in the center */
+                    justify-content:space-around;
+                    background-color: $lightGreen;
+
+                    button{
+                        background-color: transparent;
+                        border: none;
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            .add-btn {
+                background-color: $green;
+                border-radius: 50%;
+            }
+              
+            .owesBox h1 {
+                font-size: 1.5rem;
+                margin-bottom: 10px;
+            }
+            
+            
+            .debts {
+                display: flex;
+                gap: 20px;
+                .debt-box {
+                    padding: 10px;
+                    font-size: 1.2rem;
+                    color: #333;
+                    background-color: #f0f0f0;;
+                }
+            }
+        }
+
+
         // Market
         .market {
             width: fit-content;

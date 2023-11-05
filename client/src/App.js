@@ -6,6 +6,8 @@ import Chores from "./pages/Chores";
 import Plants from "./pages/Plants";
 import Market from "./pages/Market";
 import Calendar from "./pages/CalendarPage.jsx";
+import Split from "./pages/Split/Split.jsx";
+import NewBillForm from "./pages/Split/NewBillForm";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import "./style.scss"
@@ -28,6 +30,8 @@ const router = createBrowserRouter([
       { path: "/calendar", element: <Calendar /> },
       { path: "/plants", element: <Plants /> },
       { path: "/market", element: <Market /> },
+      { path: "/split", element: <Split /> },
+      { path: "/split/newBill", element: <NewBillForm /> },
     ] 
   },
   { path: "/register", element: <Register /> },
