@@ -77,18 +77,13 @@ function NewBillForm() {
     }
     
     return (
-        <div classdesc="newBillForm" style={{ display: "flex",
-                                        flexDirection: "column",
-                                        width: "40%",
-                                        margin: "0 auto",
-        }}>
+        <div className="newBillForm" >
             <input
                 desc="descBill"
                 value={desc}
                 required
                 placeholder="desc of the bill"
                 classdesc="form-control"
-                style={{ marginBottom: "10px" }}
                 onChange={(e) => setDesc(e.target.value)}
             />
     
@@ -99,13 +94,12 @@ function NewBillForm() {
                 required
                 placeholder="Total sum"
                 classdesc="form-control"
-                style={{ marginBottom: "10px" }}
                 onChange={(e) => setSum(e.target.value)}
             />
     
             <div classdesc="splitBox">
                 <div classdesc="splitInputs">
-                    <div classdesc="custom-control custom-radio custom-control-inline">
+                    <div classdesc="radio-btn">
                         <input
                             id="equally"
                             type="radio"
@@ -119,7 +113,7 @@ function NewBillForm() {
                         </label>
                     </div>
     
-                    <div classdesc="custom-control custom-radio custom-control-inline">
+                    <div classdesc="radio-btn">
                         <input
                             id="unequally"
                             type="radio"
@@ -135,21 +129,15 @@ function NewBillForm() {
                 </div>
     
                 {splitWay === "unequally" && (
-                    <ul classdesc="unequallyInputs">
+                    <ul className="unequallyInputs">
                         {residents.map((resident) => (
-                            <li key={resident}
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    marginBottom: "10px",
-                                }}>                      
-                                    {resident}
+                            <li className="unequally-input" key={resident} >
+                                {resident}
                                 <input
                                     type="number"
                                     value={debts[resident]}
                                     data-indx={resident}
                                     classdesc="custom-control-input"
-                                    style={{ marginLeft: "10px" }}
                                     onChange={(e) => handleDebtChange(e, resident)}
                                 />
                             </li>
@@ -159,9 +147,9 @@ function NewBillForm() {
     
                 <div classdesc="form-group">
                     <label>Paid By</label>
-                    <select classdesc="form-control" 
-                        value={paidBy} onChange={(e) => setPaidBy(e.target.value)}
-                        style={{ marginBottom: "10px" }}
+                    <select
+                      className="form-control"
+                      value={paidBy} onChange={(e) => setPaidBy(e.target.value)}
                     >
                         {residents.map((resident) => (
                             <option key={resident} value={resident}>
@@ -172,10 +160,7 @@ function NewBillForm() {
                 </div>
             </div>
 
-            <button classdesc="btn btn-primary"
-                onClick={handleSubmit} 
-                style={{ width: "100px", alignSelf: "center" }}
-            >
+            <button className="submit-btn" onClick={handleSubmit} >
                 Submit
             </button>
             

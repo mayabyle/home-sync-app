@@ -66,14 +66,15 @@ router.delete("/:id", (req, res) => {
     db.query(deleteQuery, [billId], (err, data) => {
         if (err) 
             return res.send(err);
-        const debts = req.body
-        console.log(debts)
-        const updateQuery = "Update debts SET amount = amount - ? WHERE apartmentid - ? AND name = ?";
+        const bill = JSON.parse(req.query.bill)  
+        const debts = bill.debts  
+        const updateQuery = "Update debts SET amount = amount - ? WHERE apartmentid = ? AND name = ?";
+
         for (const person in debts) {
-            if(debts[person] == 0)
-                continue
             const debtAmount = debts[person];
-            const updateValues = [debtAmount, 1, person];  //TODO fix apartmentid
+            if(debtAmount == 0)
+                continue
+            const updateValues = [debtAmount, bill.apartmentid, person]; 
             db.query(updateQuery, updateValues, (err, updateRes) => {
                 if (err) {
                     console.log(err);
@@ -81,8 +82,8 @@ router.delete("/:id", (req, res) => {
                 }
             });
         }
-        res.status(200).json({ message: "Payment recorded and debts updated successfully." });
-  });
+        return res.status(200).json({ message: "Payment recorded and debts updated successfully." });
+    });
 })
 
 export default router;
