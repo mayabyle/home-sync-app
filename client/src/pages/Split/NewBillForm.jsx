@@ -21,7 +21,7 @@ function NewBillForm() {
         setDebts(updatedDebts);
     };
 
-    const calculateDebtsSum = () => {
+    const calculateUnequallyDebtsSum = () => {
         const debtValues = Object.values(debts);
         return debtValues.reduce((total, debt) => total + parseFloat(debt), 0);
     };
@@ -29,8 +29,11 @@ function NewBillForm() {
     const calculateDebt = () => {
         var calDebts = { ...debts };
         if (splitWay === "equally") {
-            const amount = sum / residents.length;
-            calDebts[paidBy] = sum - amount;
+            const amount = (sum / residents.length).toFixed(1);
+            if( (sum-amount)%2 !== 0 )
+                calDebts[paidBy] = (sum - amount - 0.1).toFixed(1);
+            else
+                calDebts[paidBy] = (sum - amount).toFixed(1);
             residents.forEach((res) => {
                 if (res !== paidBy) 
                     calDebts[res] = -amount;
@@ -43,6 +46,7 @@ function NewBillForm() {
                     calDebts[res] = sum - debts[paidBy];
             });
         }
+        console.log("calDebts: ",calDebts)
         return calDebts;
     };
 
@@ -50,7 +54,7 @@ function NewBillForm() {
     const handleSubmit = () => {
         if (!desc || !sum) {
             alert("Missing fields");
-        } else if (splitWay === "unequally" && calculateDebtsSum() !== parseFloat(sum)) {
+        } else if (splitWay === "unequally" && calculateUnequallyDebtsSum() !== parseFloat(sum)) {
             alert("Debt sum does not match the total sum");
         } 
         else {
@@ -146,7 +150,7 @@ function NewBillForm() {
                 )}
     
                 <div classdesc="form-group">
-                    <label>Paid By</label>
+                    <label>Paid By:  </label>
                     <select
                       className="form-control"
                       value={paidBy} onChange={(e) => setPaidBy(e.target.value)}

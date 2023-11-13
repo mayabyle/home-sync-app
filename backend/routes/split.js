@@ -68,6 +68,7 @@ router.delete("/:id", (req, res) => {
             return res.send(err);
         const bill = JSON.parse(req.query.bill)  
         const debts = bill.debts  
+        console.log(debts)
         const updateQuery = "Update debts SET amount = amount - ? WHERE apartmentid = ? AND name = ?";
 
         for (const person in debts) {

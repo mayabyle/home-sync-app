@@ -8,6 +8,12 @@ function Navbar() {
     const { currUser, logout } = useContext(AuthContext);
     console.log(currUser)
 
+    const [open, setOpen] = React.useState(false);
+
+    const handleOpen = () => {
+        setOpen(!open);
+    };
+
     return (
         <div className="navbar">
             <div className="container">
@@ -20,7 +26,19 @@ function Navbar() {
                     <Link className="link" to="/market"><h6>Market</h6></Link>
                     <Link className="link" to="/chores"><h6>Chores</h6></Link>
                     <Link className="link" to="/plants"><h6>Plants</h6></Link>
-                    <span>Setting</span>
+                    <div className="dropdown">
+                        <span onClick={handleOpen}>Setting</span>
+                        {open ? (
+                            <ul className="menu">
+                                <li className="menu-item">
+                                    <button>Menu 1</button>
+                                </li>
+                                <li className="menu-item">
+                                    <Link to="/settings" onClick={handleOpen}>Tenants</Link>
+                                </li>
+                            </ul>
+                        ) : null}
+                    </div>
                     {currUser ? 
                         <span onClick={logout}> Logout </span> : 
                         <Link className="link" to="/login"> Login </Link>

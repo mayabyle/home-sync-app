@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
     const values = [
         req.body.desc,
-        req.body.incharge, //TODO - to support roomies incharge
+        JSON.stringify(req.body.incharge), 
         1,
     ];
 

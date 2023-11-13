@@ -10,6 +10,7 @@ import Split from "./pages/Split/Split.jsx";
 import NewBillForm from "./pages/Split/NewBillForm";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Tenants from "./components/settings/Tenants.jsx";
 import "./style.scss"
 
 const Layout = () => {
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
       { path: "/market", element: <Market /> },
       { path: "/split", element: <Split /> },
       { path: "/split/newBill", element: <NewBillForm /> },
+      { path: "/settings", element: <Tenants /> },
     ] 
   },
   { path: "/register", element: <Register /> },

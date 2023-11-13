@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-function OwesBox() {
+function OwesBox( bills ) {
     const [debtRecords, setDebtRecords] = useState([]);
     const [debts, setDebts] = useState([]);
 
@@ -14,7 +14,7 @@ function OwesBox() {
             setDebts(minTrans)
         }
         fetchDebts()
-    }, [])
+    }, [bills])
 
 
     const calculateTransfers = (transactions) => {

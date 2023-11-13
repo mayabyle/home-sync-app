@@ -60,7 +60,7 @@ function Split() {
 
     return (
         <div className="split">
-            <OwesBox/>
+            <OwesBox bills={bills}/>
             <h2>All bills</h2>
             <div className="expense-container">
                 {filteredBills.map((bill, indx) => (

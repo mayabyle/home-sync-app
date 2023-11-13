@@ -11,6 +11,7 @@ import plantsRoutes from "./routes/plants.js"
 import calendarRoutes from "./routes/calendar.js"
 import marketRoutes from "./routes/market.js"
 import splitRoutes from "./routes/split.js"
+import settingRoutes from "./routes/settings.js"
 
 
 const app = express()
@@ -26,6 +27,7 @@ app.use("/api/plants", plantsRoutes)
 app.use("/api/calendar", calendarRoutes)
 app.use("/api/market", marketRoutes)
 app.use("/api/split", splitRoutes)
+app.use("/api/settings", settingRoutes)
 
 ///////////////// upload plant img using multer /////////////////
 
