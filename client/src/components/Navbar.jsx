@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../assets/friendsLogo.jpg";
+import Logo from "../assets/logo.png";
 import { Link } from 'react-router-dom';
 import { useContext } from "react";
 import { AuthContext } from "../context/authContext";
@@ -18,7 +18,7 @@ function Navbar() {
         <div className="navbar">
             <div className="container">
                 <a className="logo" href="/">
-                    <img src={Logo} width={200} height={130} alt="" />
+                    <img src={Logo} width={200} height={140} alt="" />
                 </a>
                 <div className="links">
                     <Link className="link" to="/calendar"><h6>Calendar</h6></Link>

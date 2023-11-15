@@ -56,7 +56,7 @@ function Chores() {
       };
 
     return (
-        <div className="chores-container" >
+        <div className="chores-container" style={{marginTop:'20px'}} >
             <form className="chores-form" style={{ backgroundColor: "#f0f0f0", maxWidth:'60%', display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
                 <h4>Create a new chore</h4>
                 <input
@@ -101,7 +101,7 @@ function Chores() {
                 </ul>
             ) : (
                 <div className="empty">
-                    <p>No task found</p>
+                    <p>No tasks found</p>
                 </div>
             )}
         </div>

@@ -12,6 +12,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Tenants from "./components/settings/Tenants.jsx";
 import "./style.scss"
+// import "bootstrap/dist/css/bootstrap.min.css";
 
 const Layout = () => {
   return (
