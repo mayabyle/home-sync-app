@@ -16,7 +16,6 @@ function Chores() {
             try {
                 const choresRes = await axios.get(`/chores`)
                 setChores(choresRes.data)
-                console.log(choresRes.data)
                 const tenantsRes = await axios.get(`/settings/tenants`)
                 setTenants(tenantsRes.data[0].tenants)
             } 
