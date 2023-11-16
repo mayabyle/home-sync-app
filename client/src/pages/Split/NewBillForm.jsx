@@ -1,19 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
 function NewBillForm() {
-    const residents = ["maya","bar", "yael"]  //TODO get residents from db
-
-    const navigate = useNavigate();
     const [desc, setDesc] = useState("")
     const [sum, setSum] = useState("")
-    const [debts, setDebts] = useState(residents.reduce((acc, name) => {
-        acc[name] = 0;
-        return acc;
-    }, {}))
-    const [paidBy, setPaidBy] = useState(residents[0]);
+    const [debts, setDebts] = useState([])
+    const [paidBy, setPaidBy] = useState("");
     const [splitWay, setSplitWay] = useState("equally")
+    const [tenants, setTenants] =  useState([])
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchTenants = async () => {
+            const res = await axios.get(`/settings/tenants`)
+            const tenantsRes = res.data[0].tenants
+            setTenants(tenantsRes)
+            setDebts(tenantsRes.reduce((acc, name) => {
+                acc[name] = 0;
+                return acc;
+            }, {}))
+            setPaidBy(tenantsRes[0])
+        }
+        fetchTenants()
+    }, [])
 
     const handleDebtChange = (e, name) => {
         const updatedDebts = { ...debts };
@@ -29,17 +40,17 @@ function NewBillForm() {
     const calculateDebt = () => {
         var calDebts = { ...debts };
         if (splitWay === "equally") {
-            const amount = (sum / residents.length).toFixed(1);
+            const amount = (sum / tenants.length).toFixed(1);
             if( (sum-amount)%2 !== 0 )
                 calDebts[paidBy] = (sum - amount - 0.1).toFixed(1);
             else
                 calDebts[paidBy] = (sum - amount).toFixed(1);
-            residents.forEach((res) => {
+            tenants.forEach((res) => {
                 if (res !== paidBy) 
                     calDebts[res] = -amount;
             });
         } else {
-            residents.forEach((res) => {
+            tenants.forEach((res) => {
                 if (res !== paidBy) 
                     calDebts[res] = -debts[res];
                 else 
@@ -134,7 +145,7 @@ function NewBillForm() {
     
                 {splitWay === "unequally" && (
                     <ul className="unequallyInputs">
-                        {residents.map((resident) => (
+                        {tenants.map((resident) => (
                             <li className="unequally-input" key={resident} >
                                 {resident}
                                 <input
@@ -155,7 +166,7 @@ function NewBillForm() {
                       className="form-control"
                       value={paidBy} onChange={(e) => setPaidBy(e.target.value)}
                     >
-                        {residents.map((resident) => (
+                        {tenants.map((resident) => (
                             <option key={resident} value={resident}>
                                 {resident}
                             </option>
