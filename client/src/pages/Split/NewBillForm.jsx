@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
+
+// TODO - make it as component which apears in the middle of Split page and the background gets blured
+
 function NewBillForm() {
     const [desc, setDesc] = useState("")
     const [sum, setSum] = useState("")

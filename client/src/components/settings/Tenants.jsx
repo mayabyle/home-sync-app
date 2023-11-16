@@ -18,6 +18,7 @@ function Tenants() {
     }, []);
 
     const handleDelete = (index) => {
+      // TODO fix to delete from db
       setDeleteIndex(index);
     };
 
@@ -36,9 +37,17 @@ function Tenants() {
 
     const handleAddTenant = async () => {
       if (newTenant.trim() !== "") {
-        await axios.put(`/settings/${newTenant}`)
-        setTenants([...tenants, newTenant]);
-        setNewTenant("");
+        const isDuplicate = tenants.some((tan) => tan.toLowerCase() === newTenant.toLowerCase());
+
+        if (!isDuplicate) {
+          // If it's not a duplicate, proceed with adding the new tenant
+          await axios.put(`/settings/${newTenant}`);
+          setTenants([...tenants, newTenant]);
+          setNewTenant("");
+        } else {
+          alert("Duplicate tenant name. Choose a different name.");
+          setNewTenant("")
+        }
       }
     };
 
