@@ -2,9 +2,9 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser"
 import multer from "multer"
+import jwt from 'jsonwebtoken';
 
 import authRoutes from "./routes/auth.js"
-import userRoutes from "./routes/users.js"
 import apartmentRoutes from "./routes/apartments.js"
 import choreRoutes from "./routes/chores.js"
 import plantsRoutes from "./routes/plants.js"
@@ -19,15 +19,32 @@ app.use(cors())
 app.use(express.json());
 app.use(cookieParser())
 
+///////////////// authenticate middleware /////////////////
+
+const authenticateMiddleware = (req, res, next) => {
+    const token = req.cookies.access_token
+    if (!token) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+    try {
+        const decoded = jwt.verify(token, 'jwtkey');
+        req.apartmentId = decoded.id;
+        next();
+    } catch (err) {
+        return res.status(401).json({ message: 'Invalid token' });
+    }
+};
+
+///////////////// router /////////////////
+
 app.use("/api/auth", authRoutes)
-app.use("/api/users", userRoutes)
-app.use("/api/apartments", apartmentRoutes)
-app.use("/api/chores", choreRoutes)
-app.use("/api/plants", plantsRoutes)
-app.use("/api/calendar", calendarRoutes)
-app.use("/api/market", marketRoutes)
-app.use("/api/split", splitRoutes)
-app.use("/api/settings", settingRoutes)
+app.use("/api/apartments", authenticateMiddleware, apartmentRoutes)
+app.use("/api/chores", authenticateMiddleware, choreRoutes)
+app.use("/api/plants", authenticateMiddleware, plantsRoutes)
+app.use("/api/calendar", authenticateMiddleware, calendarRoutes)
+app.use("/api/market", authenticateMiddleware, marketRoutes)
+app.use("/api/split", authenticateMiddleware, splitRoutes)
+app.use("/api/settings", authenticateMiddleware, settingRoutes)
 
 ///////////////// upload plant img using multer /////////////////
 

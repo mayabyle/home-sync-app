@@ -6,38 +6,41 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 function Tenants() {
     const [tenants, setTenants] = useState([]);
     const [newTenant, setNewTenant] = useState("");
-    const [deleteIndex, setDeleteIndex] = useState(null);
+    const [deleteTenant, setDeleteTenant] = useState(null); //index: null, name: ""
 
     useEffect(() => {
-      // setTenants(["bar", "maya", "yael"]);
       const fetchTenants = async () => {
         const res = await axios.get("/settings/tenants")
-        setTenants(res.data[0].tenants)
+        setTenants(res.data[0].tenants || [])
       }
       fetchTenants()
     }, []);
 
-    const handleDelete = (index) => {
-      // TODO fix to delete from db
-      setDeleteIndex(index);
+    const handleDelete = (tenant, index) => {
+      setDeleteTenant({...deleteTenant, index:index, name:tenant});
     };
 
-    const confirmDelete = () => {
-      if (deleteIndex !== null) {
-        const updatedTenants = [...tenants];
-        updatedTenants.splice(deleteIndex, 1);
-        setTenants(updatedTenants);
-        setDeleteIndex(null); 
+    const confirmDelete = async() => {
+      if (deleteTenant !== null) {
+        try {
+          // await axios.delete(`/settings/${deleteTenant.name}`) //TODO fix the delete function in server
+          const updatedTenants = [...tenants];
+          updatedTenants.splice(deleteTenant.index, 1);
+          setTenants(updatedTenants);
+          setDeleteTenant(null); 
+        } catch(err) {
+          console.log(err)
+        }
       }
     };
 
     const cancelDelete = () => {
-      setDeleteIndex(null);
+      setDeleteTenant(null);
     };
 
     const handleAddTenant = async () => {
       if (newTenant.trim() !== "") {
-        const isDuplicate = tenants.some((tan) => tan.toLowerCase() === newTenant.toLowerCase());
+        const isDuplicate = tenants.length > 0 && tenants.some((tan) => tan.toLowerCase() === newTenant.toLowerCase());
 
         if (!isDuplicate) {
           // If it's not a duplicate, proceed with adding the new tenant
@@ -53,16 +56,18 @@ function Tenants() {
 
     return (
         <div>
+          {tenants &&
             <ul>
                 {tenants.map((tenant, index) => (
                     <li className="tenant-row" key={index}>
                         <a style={{ paddingRight: "20px" }}>{tenant}</a>
-                        <FontAwesomeIcon icon={faTimes} onClick={() => handleDelete(index)} />
+                        <FontAwesomeIcon icon={faTimes} onClick={() => handleDelete(tenant, index)} />
                     </li>
                 ))}
             </ul>
+          }
                 
-            {deleteIndex !== null && (
+            {deleteTenant !== null && (
                 <div className="confirmation-modal">
                     <p>Are you sure you want to delete?</p>
                     <button onClick={confirmDelete}>Yes</button>

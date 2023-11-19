@@ -29,7 +29,7 @@ function Login() {
             <input required type="text" value={username} placeholder="Username" onChange={(e) => { setUsername(e.target.value) }}/>
                 <input required type="password" value={password} placeholder="Password" onChange={(e) => { setPassword(e.target.value) }}/>
                 <button onClick={handleLogin}>Login</button>
-                { error && <p>{error}</p> }
+                { error && <p style={{color:'red'}}>{error}</p> }
                 <span>Don't have an account? <Link to="/register">Register</Link></span>
             </form>
         </div>

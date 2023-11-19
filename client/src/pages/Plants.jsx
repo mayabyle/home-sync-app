@@ -12,7 +12,6 @@ function Plants() {
         const fetchData = async () => {
             try {
                 const res = await axios.get(`/plants`)
-                console.log(res.data)
                 setPlants(res.data)
             } catch (err) {
                 console.log(err);

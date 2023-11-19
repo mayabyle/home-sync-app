@@ -10,7 +10,6 @@ function OwesBox( bills ) {
             const res = await axios.get(`/split/debts`)
             const transactions = res.data
             const minTrans = calculateTransfers(transactions)
-            console.log(minTrans)
             setDebts(minTrans)
         }
         fetchDebts()

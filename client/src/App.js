@@ -1,3 +1,4 @@
+import React, { useContext } from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -12,13 +13,16 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Tenants from "./components/settings/Tenants.jsx";
 import "./style.scss"
+import { AuthContext } from "./context/authContext";
 // import "bootstrap/dist/css/bootstrap.min.css";
 
 const Layout = () => {
+  const { currUser } = useContext(AuthContext);
+
   return (
     <>
       <Navbar />
-      <Outlet />
+      {currUser && <Outlet />}
       <Footer />
     </>
   );

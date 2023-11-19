@@ -10,10 +10,11 @@ router.post("/register", (req, res) => {
     const user = req.body
 
     //check if user exists
-    const selectQuery = "SELECT * FROM users WHERE email = ? OR username = ?"
+    const selectQuery = "SELECT * FROM users WHERE email = ?" // OR username = ?
     db.query(selectQuery, [user.email, user.username], (err, data) => {
-        if(err)
+        if(err) 
             return res.json(err)
+        
         if(data.length)
             return res.status(409).json("User already exists!")
         
@@ -21,14 +22,25 @@ router.post("/register", (req, res) => {
         const salt = bcrypt.genSaltSync(10);
         const hashedPassword = bcrypt.hashSync(user.password, salt);
 
-        const insertQuery = "INSERT INTO users(`username`,`email`,`password`, `apartment_id`) VALUES (?)";
-        const newUser = [user.username, user.email, hashedPassword, 1];  //TODO fix dynamic apartment id
+        const insertQuery = "INSERT INTO users(`username`,`email`,`password`) VALUES (?)"; 
+        const newUser = [user.username, user.email, hashedPassword]; 
 
-        db.query(insertQuery, [newUser], (err, data) => {
+        db.query(insertQuery, [newUser], (err, userData) => {
             if (err) 
                 return res.status(500).json(err);
-            return res.status(200).json("User has been created");
-        });
+
+            const userId = userData.insertId;
+            const insertApartmentQuery = "INSERT INTO apartments(`id`) VALUES (?)";
+
+            db.query(insertApartmentQuery, [userId], (err, apartmentData) => {
+                if (err) {
+                    console.error("Error inserting apartment:", err);
+                    return res.status(500).json("Error inserting apartment");
+                }
+
+                return res.status(200).json("User and apartment have been created");
+            })
+        })
     });
 });
 

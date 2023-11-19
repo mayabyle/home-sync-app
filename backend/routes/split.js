@@ -4,8 +4,8 @@ import {db} from "../db.js";
 const router = express.Router()
 
 router.get("/", (req,res) => {
-    const selectQuery = "SELECT * FROM payments"
-    db.query(selectQuery, (err, data) => {
+    const selectQuery = "SELECT * FROM payments WHERE apartmentid = ?"
+    db.query(selectQuery, [req.apartmentId], (err, data) => {
         if(err) {
             return res.json("error")
         }
@@ -14,18 +14,19 @@ router.get("/", (req,res) => {
 })
 
 router.get("/debts", (req,res) => {
-    const selectQuery = "SELECT * FROM debts WHERE apartmentid = 1 AND amount != 0" // TODO apa id
-    db.query(selectQuery, (err, data) => {
+    const selectQuery = "SELECT * FROM debts WHERE apartmentid = ? AND amount != 0" // TODO apa id
+    db.query(selectQuery, [req.apartmentId], (err, data) => {
         if(err) {
             return res.json("error")
         }
-        //TODO calculate
         return res.status(200).json(data)
     })
 })
 
 router.post("/", (req, res) => {
     const debts = req.body.debts 
+    const apartmentId = req.apartmentId
+
     const values = [
         req.body.desc,
         req.body.sum,
@@ -33,10 +34,10 @@ router.post("/", (req, res) => {
         req.body.paidBy,
         req.body.splitWay, 
         JSON.stringify(debts),
-        1,
+        apartmentId,
     ];
-
     const insertQuery = "INSERT INTO payments(`desc`, `sum`, `date`, `paidBy`, `splitWay`, `debts`, `apartmentid`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    
     db.query(insertQuery, values, (err, insertRes) => {
         if (err) {
             console.log(err)
@@ -47,7 +48,7 @@ router.post("/", (req, res) => {
             if(debts[person] == 0)
                 continue
             const debtAmount = debts[person];
-            const updateValues = [debtAmount, 1, person];  //TODO fix apartmentid
+            const updateValues = [debtAmount, apartmentId, person];  
             db.query(updateQuery, updateValues, (err, updateRes) => {
                 if (err) {
                     console.log(err);
@@ -68,7 +69,6 @@ router.delete("/:id", (req, res) => {
             return res.send(err);
         const bill = JSON.parse(req.query.bill)  
         const debts = bill.debts  
-        console.log(debts)
         const updateQuery = "Update debts SET amount = amount - ? WHERE apartmentid = ? AND name = ?";
 
         for (const person in debts) {

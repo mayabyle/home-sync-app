@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
 
-// TODO - make it as component which apears in the middle of Split page and the background gets blured
+// TODO - Create a component that appears in the middle of the split page with a blurred background.
 
 function NewBillForm() {
     const [desc, setDesc] = useState("")
@@ -18,7 +18,7 @@ function NewBillForm() {
     useEffect(() => {
         const fetchTenants = async () => {
             const res = await axios.get(`/settings/tenants`)
-            const tenantsRes = res.data[0].tenants
+            const tenantsRes = res.data[0].tenants || []
             setTenants(tenantsRes)
             setDebts(tenantsRes.reduce((acc, name) => {
                 acc[name] = 0;
@@ -94,8 +94,11 @@ function NewBillForm() {
         }
     }
     
-    return (
-        <div className="newBillForm" >
+    return (<>
+        {tenants.length==0 ? (
+            <p>Your Apartment is missing tenants!
+                Go to settings and declare them</p>
+        ) : (<div className="newBillForm" >
             <input
                 desc="descBill"
                 value={desc}
@@ -183,6 +186,7 @@ function NewBillForm() {
             </button>
             
         </div>
+        )}</>
     );
 }
     

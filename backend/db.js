@@ -14,5 +14,3 @@ export const db = mysql.createConnection({
 //       console.log("Connected to the database!");
 //     }
 // });
-
-//TODO think about the connections between users andapartments

@@ -4,19 +4,18 @@ import {db} from "../db.js";
 const router = express.Router()
 
 router.get("/", (req, res) => {
-    const selectQuery = "SELECT * FROM plants" //TODO FIX apartment id
-    db.query(selectQuery, (err, data) => {
+    const selectQuery = "SELECT * FROM plants WHERE apartmentid = ?"
+    db.query(selectQuery, [req.apartmentId], (err, data) => {
         if(err) {
             return res.json("error")
         }
         // Loop through the data and format the last_water date
-        data.forEach((plant) => {   //TODO make more efficiant
+        data.forEach((plant) => {   //TODO make more efficient
             if (plant.last_water) {
                 const lastWaterDate = new Date(plant.last_water);
                 plant.last_water = lastWaterDate.toISOString().split('T')[0];
             }
         });
-        console.log(data)
         return res.json(data)
     })
 })
@@ -29,7 +28,7 @@ router.post("/", (req, res) => {
         req.body.desc,
         req.body.waterDate,
         req.body.preferences,
-        1,
+        req.apartmentId,
         req.body.img, 
     ];
     console.log(values)
@@ -38,7 +37,7 @@ router.post("/", (req, res) => {
     db.query(insertQuery, values, (err, insertRes) => {
         if (err) {
             console.log(err)
-            return res.status(500).json({ error: "Error inserting data into the database." });
+            return res.status(500).json({ error: "Error inserting data into the database" });
         }
 
         // Fetch and return the newly inserted data

@@ -4,8 +4,8 @@ import {db} from "../db.js";
 const router = express.Router()
 
 router.get("/", (req, res) => {
-    const selectQuery = "SELECT * FROM chores" //TODO FIX
-    db.query(selectQuery, (err, data) => {
+    const selectQuery = "SELECT * FROM chores WHERE apartmentid = ?" //TODO check that works
+    db.query(selectQuery, [req.apartmentId], (err, data) => {
         if(err) {
             return res.json("error")
         }
@@ -17,7 +17,7 @@ router.post("/", (req, res) => {
     const values = [
         req.body.desc,
         JSON.stringify(req.body.incharge), 
-        1,
+        req.apartmentId,
     ];
 
     const insertQuery = "INSERT INTO chores(`desc`, `incharge`, `apartmentid`) VALUES (?)";

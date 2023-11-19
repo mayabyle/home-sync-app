@@ -20,7 +20,6 @@ function Plant({ plant, handleDelete, handleUpdate, upload }) {
     };
 
     const handleSave = () => {
-        console.log(editedPlant)
         handleUpdate(editedPlant);
         setIsEditing(false);
     }

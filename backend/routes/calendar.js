@@ -22,8 +22,8 @@ const router = express.Router()
 // ];
 
 router.get("/", (req, res) => {
-  const selectQuery = "SELECT * FROM events" //TODO FIX select by apartment id
-  db.query(selectQuery, (err, data) => {
+  const selectQuery = "SELECT * FROM events WHERE apartmentid = ?" 
+  db.query(selectQuery, [req.apartmentId], (err, data) => {
     if(err) {
       return res.json("error")
     }
@@ -39,7 +39,7 @@ router.post("/", (req, res) => {
     req.body.text, 
     req.body.start,
     req.body.end, 
-    1,
+    req.apartmentId,
   ];
   console.log(values)
   const insertQuery = "INSERT into events(`id`, `text`, `start`, `end`, `apartmentid`) VALUES (?)"
@@ -58,7 +58,7 @@ router.put("/:id", (req, res) => {
   const updateQuery = "UPDATE events SET `text` = ? WHERE `id` = ?"
   db.query(updateQuery, [text, id], (err, updateRes) => {
     if (err) {
-      console.error("Database error:", err); // Log the error for debugging
+      console.error("Database error:", err); 
       return res.status(500).json({ error: "Error updating data in the database" })
     }
     return res.status(200).json("event updated successfully");
